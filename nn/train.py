@@ -59,7 +59,10 @@ def train(
             val_pred
         )
 
-        history.append((val_loss, val_acc))
+        history.append({
+            "loss": val_loss,
+            "accuracy": val_acc
+        })
 
         print(
             f"Epoch {epoch+1} | "
