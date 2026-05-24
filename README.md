@@ -4,6 +4,7 @@ implements a feedforward neural network from scratch using NumPy for classificat
 The network supports configurable hidden layers, multiple activation functions, and different optimization algorithms.
 
 structure:
+
 nn/
 ├── activations.py
 ├── network.py
@@ -15,7 +16,9 @@ notebooks/
 └── assignment.ipynb
 
 install dependencies:
+
 pip install -r requirements.txt
 
 and run:
+
 notebooks/fashion_mnist_training.ipynb
