@@ -12,7 +12,7 @@ from nn.activations import (
 
 
 class FeedForwardNN:
-
+    # Forward pass through all hidden layers
     def __init__(
         self,
         input_size,
@@ -77,23 +77,23 @@ class FeedForwardNN:
         self.activations = [X]
         self.z_values = []
 
-        A = X
+        activations_current = X
 
         for i in range(len(self.weights) - 1):
 
-            Z = np.dot(A, self.weights[i]) + self.biases[i]
+            linear_output = np.dot(activations_current, self.weights[i]) + self.biases[i]
 
-            self.z_values.append(Z)
+            self.z_values.append(linear_output)
 
-            A = self.activation(Z)
+            activations_current = self.activation(linear_output)
 
-            self.activations.append(A)
+            self.activations.append(activations_current)
 
-        Z = np.dot(A, self.weights[-1]) + self.biases[-1]
+        linear_output = np.dot(activations_current, self.weights[-1]) + self.biases[-1]
 
-        self.z_values.append(Z)
+        self.z_values.append(linear_output)
 
-        output = softmax(Z)
+        output = softmax(linear_output)
 
         self.activations.append(output)
 
