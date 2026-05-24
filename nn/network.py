@@ -5,16 +5,29 @@ from nn.activations import relu, relu_derivative, softmax
 
 class FeedForwardNN:
 
-    def __init__(self, input_size, hidden_layers, output_size):
+    def __init__(self, input_size, hidden_layers, output_size, activation="relu", weight_init="random"):
 
         self.weights = []
         self.biases = []
+        self.activation_name = activation
 
         layers = [input_size] + hidden_layers + [output_size]
 
         for i in range(len(layers) - 1):
 
-            W = np.random.randn(layers[i], layers[i + 1]) * 0.01
+            if weight_init == "xavier":
+            
+                W = np.random.randn(
+                    layers[i],
+                    layers[i + 1]
+                ) * np.sqrt(1 / layers[i])
+            
+            else:
+            
+                W = np.random.randn(
+                    layers[i],
+                    layers[i + 1]
+                ) * 0.01
 
             b = np.zeros((1, layers[i + 1]))
 
@@ -35,7 +48,7 @@ class FeedForwardNN:
 
             self.z_values.append(Z)
 
-            A = relu(Z)
+            A = self.activation(Z)
 
             self.activations.append(A)
 
@@ -79,7 +92,7 @@ class FeedForwardNN:
                 self.weights[i + 1].T
             )
 
-            dZ = dA * relu_derivative(self.z_values[i])
+            dZ = dA * self.activation_derivative(self.z_values[i])
 
             self.dW[i] = np.dot(
                 self.activations[i].T,
@@ -91,3 +104,25 @@ class FeedForwardNN:
                 axis=0,
                 keepdims=True
             ) / m
+
+    def activation(self, x):
+
+        if self.activation_name == "relu":
+            return relu(x)
+
+        elif self.activation_name == "sigmoid":
+            return sigmoid(x)
+
+        elif self.activation_name == "tanh":
+            return tanh(x)
+
+    def activation_derivative(self, x):
+
+        if self.activation_name == "relu":
+            return relu_derivative(x)
+
+        elif self.activation_name == "sigmoid":
+            return sigmoid_derivative(x)
+
+        elif self.activation_name == "tanh":
+            return tanh_derivative(x)
