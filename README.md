@@ -23,5 +23,3 @@ and run:
 
 notebooks/fashion_mnist_training.ipynb
 
-
-answers to q6,7,8,10 in notebook text cells
